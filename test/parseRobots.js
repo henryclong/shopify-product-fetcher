@@ -1,7 +1,7 @@
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
-const { parseRobots } = require('../src/robotsParser');
+const { parseRobots } = require('../src/parseRobots');
 
 const robotsPath = './testFiles/robots.txt';
 let robots = '';
