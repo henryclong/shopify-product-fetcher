@@ -6,15 +6,15 @@ const crawlDelay = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-const getCrawlDelay = (delay, lastVisitTimestamp) => {
+const getCrawlDelay = (crawlDelay, lastVisitTimestamp) => {
     const currentTimestamp = Date.now();
-    let delay = (lastVisitTimestamp + delay) - currentTimestamp;
+    let delay = (lastVisitTimestamp + crawlDelay) - currentTimestamp;
     return delay > 0 ? delay : 0;
 }
 
 const fetchWithCrawlDelay = async (url, delay, lastVisitTimestamp) => {
     const delayTime = getCrawlDelay(delay, lastVisitTimestamp);
-    const response = await crawlDelay(delayTime).then((resolve, reject) => {
+    const response = await crawlDelay(delayTime).then(async (resolve, reject) => {
         try {
             const response = await fetch(url);
             resolve(response);
