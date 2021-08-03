@@ -18,3 +18,11 @@ exports.getProductSitemaps = (sitemap) => {
         return [];
     }
 }
+
+exports.getProductUrls = (productSitemap) => {
+    try {
+        return productSitemap.urlset.url.map(a => a.loc[0]).filter(b => b.includes('products'))
+    } catch (e) {
+        return [];
+    }
+}
