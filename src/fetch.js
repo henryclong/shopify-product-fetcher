@@ -14,17 +14,15 @@ const getCrawlDelay = (crawlDelay, lastVisitTimestamp) => {
 
 const fetchWithCrawlDelay = async (url, delay, lastVisitTimestamp) => {
     const delayTime = getCrawlDelay(delay, lastVisitTimestamp);
-    const response = await crawlDelay(delayTime).then(async (resolve, reject) => {
-        try {
-            const response = await fetch(url);
-            resolve(response);
-        } catch (e) { reject(e); }
-
-    });
-    return {
-        result: response,
-        timestamp: Date.now()
-    }
+    const response = await crawlDelay(delayTime);
+    try {
+        const result = await fetch(url);
+        const textContent = await result.text();
+        return {
+            textContent: textContent,
+            timestamp: Date.now()
+        }
+    } catch (e) { console.error(e); }
 }
 
 exports.fetchRobots = async (baseUrl) => {
