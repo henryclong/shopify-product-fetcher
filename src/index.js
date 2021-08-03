@@ -1,5 +1,21 @@
-module.exports.fetchAllProductURLs = async (baseUrl, crawlDelay) => {
-    // TODO: Fetch and parse robots.txt
+const fetch = require('node-fetch');
+const { parseRobots } = require('./robotsParser');
+
+const ROBOTS_PATH = '/robots.txt';
+const USER_AGENT = '*';
+
+const fetchSitemap = async (baseUrl) => {
+    const response = await fetch(new URL(ROBOTS_PATH, baseUrl));
+    const robotsContent = await response.text();
+    const parsedRobots = parseRobots(robotsContent);
+    const sitemap = parsedRobots[USER_AGENT].Sitemap;
+    return sitemap;
+}
+
+const fetchAllProductURLs = async (baseUrl, crawlDelay) => {
+    const sitemap = await fetchSitemap(baseUrl);
+
+    console.log(sitemap);
 
     // TODO: Store crawl-delay
 
@@ -12,31 +28,6 @@ module.exports.fetchAllProductURLs = async (baseUrl, crawlDelay) => {
     return true;
 }
 
-const parseRobots = (robotsContent) => {
-    if (!robotsContent) return {};
-    const robots = {};
-    let userAgent;
+fetchAllProductURLs('https://tulefogcandles.com/', 250);
 
-    for (line of robotsContent.split('\n')) {
-        if (line.length === 0 || line[0] === '#') continue;
-        const splitLine = line.split(': ');
-        const key = splitLine[0].trim();
-        const value = splitLine[1].trim();
-        switch (key) {
-            case 'User-agent':
-                userAgent = value;
-                robots[userAgent] = {};
-                break;
-            case 'Disallow':
-                if (!userAgent) continue;
-                if (robots[userAgent].Disallow == undefined) robots[userAgent].Disallow = [];
-                robots[userAgent].Disallow = [...robots[userAgent].Disallow, value];
-                break;
-            default:
-                if (!userAgent) continue;
-                robots[userAgent][key] = value;
-        }
-    }
-
-    return robots;
-}
+module.exports = { fetchAllProductURLs };
