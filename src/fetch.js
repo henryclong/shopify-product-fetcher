@@ -28,16 +28,14 @@ const fetchWithCrawlDelay = async (url, delay, lastVisitTimestamp) => {
     } catch (e) { console.error(e); }
 }
 
-exports.fetchRobots = async (baseUrl) => {
-    const response = await fetch(new URL(ROBOTS_PATH, baseUrl));
-    const robotsText = await response.text();
+exports.fetchRobots = async (baseUrl, delay, lastVisitTimestamp) => {
+    const { textContent: robotsText, timestamp } = await fetchWithCrawlDelay(new URL(ROBOTS_PATH, baseUrl), delay, lastVisitTimestamp);
     const robots = parseRobots(robotsText);
-    return robots;
+    return { robots: robots, timestamp: timestamp };
 }
 
-exports.fetchXML = async (sitemapUrl) => {
-    const response = await fetch(sitemapUrl);
-    const sitemapText = await response.text();
-    const sitemap = parseXML(sitemapText);
-    return sitemap;
+exports.fetchXML = async (sitemapUrl, delay, lastVisitTimestamp) => {
+    const { textContent: sitemapText, timestamp } = await fetchWithCrawlDelay(sitemapUrl, delay, lastVisitTimestamp);
+    const sitemap = await parseXML(sitemapText);
+    return { sitemap: sitemap, timestamp: timestamp };
 }
