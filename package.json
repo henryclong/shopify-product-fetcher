@@ -5,5 +5,12 @@
   "main": "index.js",
   "repository": "git@github.com:hlongSD/shopify-product-fetcher.git",
   "author": "Henry Long",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "devDependencies": {
+    "mocha": "^9.0.3",
+    "rewire": "^5.0.0"
+  }
 }
