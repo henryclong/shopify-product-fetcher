@@ -7,7 +7,8 @@
   "author": "Henry Long",
   "license": "MIT",
   "scripts": {
-    "test": "nyc ./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha",
+    "coverage": "nyc yarn test"
   },
   "devDependencies": {
     "mocha": "^9.0.3",
