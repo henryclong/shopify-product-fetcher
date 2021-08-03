@@ -1,21 +1,22 @@
 const fetch = require('node-fetch');
-const { parseRobots } = require('./robotsParser');
+const { parseRobots } = require('./parseRobots');
 
 const ROBOTS_PATH = '/robots.txt';
 const USER_AGENT = '*';
 
-const fetchSitemap = async (baseUrl) => {
+const fetchRobots = async (baseUrl) => {
     const response = await fetch(new URL(ROBOTS_PATH, baseUrl));
-    const robotsContent = await response.text();
-    const parsedRobots = parseRobots(robotsContent);
-    const sitemap = parsedRobots[USER_AGENT].Sitemap;
-    return sitemap;
+    const robotsText = await response.text();
+    const robots = parseRobots(robotsText);
+    return robots;
 }
 
 const fetchAllProductURLs = async (baseUrl, crawlDelay) => {
-    const sitemap = await fetchSitemap(baseUrl);
+    const robots = await fetchRobots(baseUrl);
 
-    console.log(sitemap);
+    const sitemapUrl = robots[USER_AGENT].Sitemap;
+
+    console.log(sitemapUrl);
 
     // TODO: Store crawl-delay
 
