@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const { parseRobots } = require('./parseRobots');
 const { parseXML } = require('./parseSitemap');
+const defaults = require('../config/defaults.json');
 
 const ROBOTS_PATH = '/robots.txt';
 
@@ -15,7 +16,7 @@ const getCrawlDelay = (crawlDelay, lastVisitTimestamp) => {
 }
 
 const fetchWithCrawlDelay = async (url, delay, lastVisitTimestamp) => {
-    const delayTime = getCrawlDelay(delay, lastVisitTimestamp);
+    const delayTime = getCrawlDelay(delay ? delay : defaults.crawlDelay, lastVisitTimestamp);
     await crawlDelay(delayTime);
     try {
         const result = await fetch(url);
