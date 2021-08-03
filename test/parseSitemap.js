@@ -9,8 +9,10 @@ try {
     sitemap = fs.readFileSync(path.join(__dirname, sitemapPath), 'utf-8');
 } catch (e) { console.error(e); }
 
-describe('getProductSitemaps()', function() {
-    it('returns an empty array when passed no parameters', function() {
-        assert.deepEqual(getProductSitemaps(), []);
-    });
+describe('parseSitemap', function() {
+    describe('getProductSitemaps()', function() {
+        it('returns an empty array when passed no parameters', function() {
+            assert.deepEqual(getProductSitemaps(), []);
+        });
+    })
 });
