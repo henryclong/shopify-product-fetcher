@@ -1,11 +1,18 @@
 const assert = require('assert');
 const rewire = require('rewire');
 const fetch = rewire('../src/fetch');
+const { getAndStartTestServer } = require('./testServer/testServer');
 
 const TEST_CRAWL_DELAY = 250;
-const TEST_URL = 'https://www.google.com/';
+const PORT = 3000;
+const TEST_URL = `http://localhost:${PORT}/`;
 
 describe('fetch', function() {
+    let server;
+    before(async function() {
+        server = getAndStartTestServer(PORT);
+    });
+
     describe('getCrawlDelay()', function() {
         it('returns a value of 0 if no delay is passed as a parameter', function() {
             assert.equal(fetch.__get__('getCrawlDelay')(), 0);
@@ -42,5 +49,9 @@ describe('fetch', function() {
             const duration = currentTimestamp - originalTimestamp;
             assert.equal(duration >= TEST_CRAWL_DELAY, true);
         });
-    })
+    });
+
+    after(async function() {
+        server.close();
+    });
 });

@@ -1,8 +1,9 @@
 const assert = require('assert');
 const { fetchAllProductURLs } = require('../src/index');
 const { getAndStartTestServer } = require('./testServer/testServer');
-const TEST_URL = 'http://localhost:3000/';
+
 const PORT = 3000;
+const TEST_URL = `http://localhost:${PORT}/`;
 
 describe('index', function() {
     let server;
