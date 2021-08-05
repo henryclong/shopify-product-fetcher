@@ -1,5 +1,5 @@
 {
-  "name": "shopify-product-fetcher",
+  "name": "@henryclong/shopify-product-fetcher",
   "version": "1.0.0",
   "description": "A tool for fetching product URLs and information from Shopify stores",
   "main": "index.js",
