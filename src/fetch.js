@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const { parseRobots } = require('./parseRobots');
+const { parseRobots } = require('@henryclong/robots-parser');
 const { parseXML } = require('./parseSitemap');
 const defaults = require('../config/defaults.json');
 
