@@ -1,18 +1,40 @@
 const assert = require('assert');
 const { fetchAllProductURLs } = require('../src/index');
-
-const TEST_URL = 'https://tulefogcandles.com/';
+const { getAndStartTestServer } = require('./testServer/testServer');
+const TEST_URL = 'http://localhost:3000/';
+const PORT = 3000;
 
 describe('index', function() {
-    describe('fetchAllProductURLs()', async function() {
-        it('returns an array', async function() {
-            const productUrlList = await fetchAllProductURLs(TEST_URL);
-            assert.equal(Array.isArray(productUrlList), true);
-        });
+    let server;
+    before(async function() {
+        server = getAndStartTestServer(PORT);
+    });
 
-        it('returns a url list with length greater than 0', async function() {
-            const productUrlList = await fetchAllProductURLs(TEST_URL);
-            assert.equal(productUrlList.length > 0, true);
-        });
-    })
+    describe('fetchAllProductURLs()', async function(done) {
+        it('returns an array', async () =>
+            fetchAllProductURLs(TEST_URL)
+                .then((result) => {
+                    assert.equal(Array.isArray(result), true);
+                })
+        );
+
+        it('returns a url list with length greater than 0', async () =>
+            fetchAllProductURLs(TEST_URL)
+                .then((result) => {
+                    assert.equal(result.length > 0, true);
+                })
+        );
+
+        it('returns the correct product url from the test product sitemap', async () =>
+            fetchAllProductURLs(TEST_URL)
+                .then((result) => {
+                    assert.equal(result[0], 'http://localhost:3000/products/sea-lavender-soy-candle');
+                })
+        );
+        done();
+    });
+
+    after(async function() {
+        server.close();
+    });
 });

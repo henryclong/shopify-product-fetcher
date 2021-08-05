@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { getProductSitemaps } = require('../src/parseSitemap');
 
-const sitemapPath = './testFiles/sitemap.xml';
+const sitemapPath = './testServer/public/sitemap.xml';
 let sitemap = '';
 try {
     sitemap = fs.readFileSync(path.join(__dirname, sitemapPath), 'utf-8');

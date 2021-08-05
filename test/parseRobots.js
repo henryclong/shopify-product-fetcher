@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { parseRobots } = require('../src/parseRobots');
 
-const robotsPath = './testFiles/robots.txt';
+const robotsPath = './testServer/public/robots.txt';
 let robots = '';
 try {
     robots = fs.readFileSync(path.join(__dirname, robotsPath), 'utf-8');
