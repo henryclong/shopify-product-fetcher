@@ -6,6 +6,9 @@
   "repository": "git@github.com:henryclong/shopify-product-fetcher.git",
   "author": "Henry Long",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha",
     "coverage": "nyc yarn test"
