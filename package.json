@@ -2,7 +2,7 @@
   "name": "@henryclong/shopify-product-fetcher",
   "version": "1.0.1",
   "description": "A tool for fetching product URLs and information from Shopify stores",
-  "main": "index.js",
+  "main": "src/index.js",
   "repository": "git@github.com:henryclong/shopify-product-fetcher.git",
   "author": "Henry Long",
   "license": "MIT",
