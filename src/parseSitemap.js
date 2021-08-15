@@ -28,14 +28,18 @@ exports.getProductUrls = (productSitemap) => {
     }
 }
 
-exports.parseProductDataFromHTML = (productHTML) => {
+exports.parseProductDataFromHTML = (productHTML, selectors) => {
     const dom = new JSDOM(productHTML);
     const ogTags = dom.window.document.querySelectorAll('meta[property^="og:"]');
     const productData = {};
     for (node of ogTags) {
         productData[node.getAttribute('property').replace('og:','')] = node.getAttribute('content');
     }
-    const buyButton = dom.window.document.querySelector('form[action="/cart/add"] button[type="submit"]');
-    productData.inStock = (buyButton && !buyButton.disabled);
+    if (selectors && selectors.addToCartButton) {
+        const buyButton = dom.window.document.querySelector(selectors.addToCartButton);
+        productData.inStock = (buyButton && !buyButton.disabled);
+    } else {
+        productData.inStock = true;
+    }
     return productData;
 }
