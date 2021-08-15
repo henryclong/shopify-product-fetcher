@@ -8,7 +8,7 @@ const USER_AGENT = '*';
  * Fetches all product urls for a specified Shopify store
  * @param {string} baseUrl - The URL of the store to fetch from
  */
-const fetchAllProductData = async (baseUrl) => {
+const fetchAllProductData = async (baseUrl, limit) => {
     // Fetch robots.txt from the store, and save the parent sitemap url & crawl delay
     const { robots, timestamp: robotsTimestamp } = await fetchRobots(baseUrl);
     const sitemapUrl = robots[USER_AGENT].Sitemap;
@@ -31,7 +31,9 @@ const fetchAllProductData = async (baseUrl) => {
 
     const productData = [];
     let productTimestamp = productSitemapTimestamp;
-    for (productUrl of productUrls) {
+    for (index in productUrls) {
+        if (limit && index >= limit) break;
+        const productUrl = productUrls[index];
         const { textContent: productHTML, timestamp: timestamp } = await fetchWithCrawlDelay(productUrl, crawlDelay, productTimestamp);
         productTimestamp = timestamp;
         const extractedProductData = parseProductDataFromHTML(productHTML);
