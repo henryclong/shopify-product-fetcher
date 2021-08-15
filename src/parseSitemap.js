@@ -35,7 +35,7 @@ exports.parseProductDataFromHTML = (productHTML) => {
     for (node of ogTags) {
         productData[node.getAttribute('property').replace('og:','')] = node.getAttribute('content');
     }
-    const buyButton = dom.window.document.querySelector('.shopify-product-form button[type="submit"]');
+    const buyButton = dom.window.document.querySelector('form[action="/cart/add"] button[type="submit"]');
     productData.inStock = (buyButton && !buyButton.disabled);
     return productData;
 }
