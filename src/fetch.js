@@ -30,7 +30,7 @@ const getCrawlDelay = (crawlDelay, lastVisitTimestamp) => {
  * @param {number} delay - The amount of time to wait between requests
  * @param {number} lastVisitTimestamp - The timestamp of the latest request
  */
-const fetchWithCrawlDelay = async (url, delay, lastVisitTimestamp) => {
+exports.fetchWithCrawlDelay = async (url, delay, lastVisitTimestamp) => {
     const delayTime = getCrawlDelay(delay ? delay : defaults.crawlDelay, lastVisitTimestamp);
     await crawlDelay(delayTime);
     try {
@@ -50,7 +50,7 @@ const fetchWithCrawlDelay = async (url, delay, lastVisitTimestamp) => {
  * @param {number} lastVisitTimestamp - The timestamp of the latest request
  */
 exports.fetchRobots = async (baseUrl, delay, lastVisitTimestamp) => {
-    const { textContent: robotsText, timestamp } = await fetchWithCrawlDelay(new URL(ROBOTS_PATH, baseUrl), delay, lastVisitTimestamp);
+    const { textContent: robotsText, timestamp } = await exports.fetchWithCrawlDelay(new URL(ROBOTS_PATH, baseUrl), delay, lastVisitTimestamp);
     const robots = parseRobots(robotsText);
     return { robots: robots, timestamp: timestamp };
 }
@@ -62,7 +62,7 @@ exports.fetchRobots = async (baseUrl, delay, lastVisitTimestamp) => {
  * @param {number} lastVisitTimestamp - The timestamp of the latest request
  */
 exports.fetchXML = async (xmlUrl, delay, lastVisitTimestamp) => {
-    const { textContent: xmlText, timestamp } = await fetchWithCrawlDelay(xmlUrl, delay, lastVisitTimestamp);
+    const { textContent: xmlText, timestamp } = await exports.fetchWithCrawlDelay(xmlUrl, delay, lastVisitTimestamp);
     const xml = await parseXML(xmlText);
     return { xml: xml, timestamp: timestamp };
 }

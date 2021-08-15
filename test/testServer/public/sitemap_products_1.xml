@@ -5,7 +5,27 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
-    <loc>http://localhost:3000/products/sea-lavender-soy-candle</loc>
+    <loc>http://localhost:3000/products/in-stock</loc>
+    <lastmod>2021-07-31T07:22:15-07:00</lastmod>
+    <changefreq>daily</changefreq>
+    <image:image>
+      <image:loc>https://cdn.shopify.com/s/files/1/2400/2185/products/TF_SeaLave_BS_8oz_V1R1_01a90609-bc17-4e3e-8890-175f373859ce.png?v=1550688992</image:loc>
+      <image:title>Sea + Lavender | Soy Candle</image:title>
+      <image:caption></image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>http://localhost:3000/products/sale</loc>
+    <lastmod>2021-07-31T07:22:15-07:00</lastmod>
+    <changefreq>daily</changefreq>
+    <image:image>
+      <image:loc>https://cdn.shopify.com/s/files/1/2400/2185/products/TF_SeaLave_BS_8oz_V1R1_01a90609-bc17-4e3e-8890-175f373859ce.png?v=1550688992</image:loc>
+      <image:title>Sea + Lavender | Soy Candle</image:title>
+      <image:caption></image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>http://localhost:3000/products/out-of-stock</loc>
     <lastmod>2021-07-31T07:22:15-07:00</lastmod>
     <changefreq>daily</changefreq>
     <image:image>

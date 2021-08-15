@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@henryclong/robots-parser": "^1.0.0",
+    "jsdom": "^17.0.0",
     "node-fetch": "^2.6.1",
     "xml2js": "^0.4.23"
   }

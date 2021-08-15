@@ -1,6 +1,7 @@
 const assert = require('assert');
 const rewire = require('rewire');
 const fetch = rewire('../src/fetch');
+const { fetchWithCrawlDelay } = require('../src/fetch');
 const { getAndStartTestServer } = require('./testServer/testServer');
 
 const TEST_CRAWL_DELAY = 250;
@@ -36,15 +37,15 @@ describe('fetch', function() {
 
     describe('fetchWithCrawlDelay()', function() {
         it('succefully fetches a resource at a given url, and return the text content and timestamp', async function() {
-            const result = await fetch.__get__('fetchWithCrawlDelay')(TEST_URL, TEST_CRAWL_DELAY);
+            const result = await fetchWithCrawlDelay(TEST_URL, TEST_CRAWL_DELAY);
             assert.equal(typeof result.textContent, 'string');
             assert.equal(typeof result.timestamp, 'number');
         });
 
         it('takes longer than TEST_CRAWL_DELAY ms to access the same resource twice', async function() {
             const originalTimestamp = Date.now();
-            const result = await fetch.__get__('fetchWithCrawlDelay')(TEST_URL, TEST_CRAWL_DELAY);
-            await fetch.__get__('fetchWithCrawlDelay')(TEST_URL, TEST_CRAWL_DELAY, result.timestamp);
+            const result = await fetchWithCrawlDelay(TEST_URL, TEST_CRAWL_DELAY);
+            await fetchWithCrawlDelay(TEST_URL, TEST_CRAWL_DELAY, result.timestamp);
             const currentTimestamp = Date.now();
             const duration = currentTimestamp - originalTimestamp;
             assert.equal(duration >= TEST_CRAWL_DELAY, true);

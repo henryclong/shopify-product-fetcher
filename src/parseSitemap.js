@@ -1,4 +1,5 @@
 var xml2js = require('xml2js');
+const { JSDOM } = require('jsdom');
 
 exports.parseXML = async (sitemapContent) => {
     const a = await xml2js.parseStringPromise(sitemapContent).then(function (result) {
@@ -25,4 +26,15 @@ exports.getProductUrls = (productSitemap) => {
     } catch (e) {
         return [];
     }
+}
+
+exports.parseProductDataFromHTML = (productHTML) => {
+    const dom = new JSDOM(productHTML);
+    const ogTags = dom.window.document.querySelectorAll('meta[property^="og:"]');
+    const productData = {};
+    for (node of ogTags) {
+        //console.log(`${node.getAttribute('property')}: ${node.getAttribute('content')}`);
+        productData[node.getAttribute('property').replace('og:','')] = node.getAttribute('content');
+    }
+    return productData;
 }

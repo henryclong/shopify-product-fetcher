@@ -1,5 +1,5 @@
-const { fetchRobots, fetchXML } = require('./fetch');
-const { getProductSitemaps, getProductUrls } = require('./parseSitemap');
+const { fetchRobots, fetchXML, fetchWithCrawlDelay } = require('./fetch');
+const { getProductSitemaps, getProductUrls, parseProductDataFromHTML } = require('./parseSitemap');
 const defaults = require('../config/defaults.json');
 
 const USER_AGENT = '*';
@@ -8,7 +8,7 @@ const USER_AGENT = '*';
  * Fetches all product urls for a specified Shopify store
  * @param {string} baseUrl - The URL of the store to fetch from
  */
-const fetchAllProductURLs = async (baseUrl) => {
+const fetchAllProductData = async (baseUrl) => {
     // Fetch robots.txt from the store, and save the parent sitemap url & crawl delay
     const { robots, timestamp: robotsTimestamp } = await fetchRobots(baseUrl);
     const sitemapUrl = robots[USER_AGENT].Sitemap;
@@ -28,7 +28,18 @@ const fetchAllProductURLs = async (baseUrl) => {
         productSitemapTimestamp = latestProductSitemapTimestamp;
         productUrls.push(...getProductUrls(productSitemap));
     }
-    return productUrls;
+
+    const productData = [];
+    let productTimestamp = productSitemapTimestamp;
+    for (productUrl of productUrls) {
+        const { textContent: productHTML, timestamp: timestamp } = await fetchWithCrawlDelay(productUrl, crawlDelay, productTimestamp);
+        productTimestamp = timestamp;
+        const extractedProductData = parseProductDataFromHTML(productHTML);
+        productData.push(extractedProductData);
+    }
+
+    console.log(productData);
+    return productData;
 }
 
-module.exports = { fetchAllProductURLs };
+module.exports = { fetchAllProductData };
