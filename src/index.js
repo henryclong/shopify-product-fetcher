@@ -37,8 +37,6 @@ const fetchAllProductData = async (baseUrl) => {
         const extractedProductData = parseProductDataFromHTML(productHTML);
         productData.push(extractedProductData);
     }
-
-    console.log(productData);
     return productData;
 }
 

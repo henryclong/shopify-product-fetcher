@@ -33,7 +33,6 @@ exports.parseProductDataFromHTML = (productHTML) => {
     const ogTags = dom.window.document.querySelectorAll('meta[property^="og:"]');
     const productData = {};
     for (node of ogTags) {
-        //console.log(`${node.getAttribute('property')}: ${node.getAttribute('content')}`);
         productData[node.getAttribute('property').replace('og:','')] = node.getAttribute('content');
     }
     return productData;
